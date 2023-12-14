@@ -1,3 +1,4 @@
+import type { MessageEvent } from "ws";
 export interface BingChatClientOptions {
     _U_token: string;
     otherHeaders?: HeadersInit;

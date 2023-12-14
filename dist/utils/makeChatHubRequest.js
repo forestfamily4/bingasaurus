@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.makeChatHubRequest = void 0;
 const ChatHubError_1 = require("../errors/ChatHubError");
 const types_1 = require("../types");
+const ws_1 = __importDefault(require("ws"));
 const SYDNEY_CHAT_URL = "wss://sydney.bing.com/sydney/ChatHub";
 const TERMINAL_CHAR = "";
 function makeChatHubRequest(query, secAccessToken, options = {}) {
@@ -13,7 +17,7 @@ function makeChatHubRequest(query, secAccessToken, options = {}) {
         if (onUpdateStatus) {
             onUpdateStatus({ text: responseText, status: requestStatus });
         }
-        const ws = new WebSocket(`${SYDNEY_CHAT_URL}?sec_access_token=${encodeURIComponent(secAccessToken)}`);
+        const ws = new ws_1.default(`${SYDNEY_CHAT_URL}?sec_access_token=${encodeURIComponent(secAccessToken)}`);
         let pingInterval;
         const handleOpen = () => {
             ws.send(`{"protocol":"json","version":1}${TERMINAL_CHAR}`);
@@ -76,9 +80,8 @@ function makeChatHubRequest(query, secAccessToken, options = {}) {
             ws.removeEventListener("message", handleMessage);
             ws.removeEventListener("error", handleError);
             ws.removeEventListener("close", handleClose);
-            const closeEvent = event;
             if (event.code !== 1000) {
-                reject(new ChatHubError_1.ChatHubError(`Websocket closed with a ${closeEvent.code} becuase of ${closeEvent.reason}`, responseText));
+                reject(new ChatHubError_1.ChatHubError(`Websocket closed with a ${event.code} becuase of ${event.reason}`, responseText));
             }
         };
         ws.addEventListener("open", handleOpen);

@@ -11,6 +11,7 @@ import {
   SydneyQuery,
   SydneyServerMessage,
 } from "../types";
+import WebSocket from "ws";
 
 const SYDNEY_CHAT_URL = "wss://sydney.bing.com/sydney/ChatHub";
 const TERMINAL_CHAR = "";
@@ -57,7 +58,7 @@ export function makeChatHubRequest(
       ws.send(`${JSON.stringify(query)}${TERMINAL_CHAR}`);
     };
 
-    const handleMessage = (msg: MessageEvent) => {
+    const handleMessage = (msg: WebSocket.MessageEvent) => {
       if (onRawMessage) onRawMessage(msg);
       const sydneyMsgs = formatRawMessage(msg);
       const formatted = sydneyMsgs.map((m) => {
@@ -89,22 +90,21 @@ export function makeChatHubRequest(
       }
     };
 
-    const handleError = (event: Event) => {
-      console.error(`Websocket error ${(event as ErrorEvent).message}`);
-      reject(new ChatHubError((event as ErrorEvent).message, responseText));
+    const handleError = (event: WebSocket.ErrorEvent) => {
+      console.error(`Websocket error ${event.message}`);
+      reject(new ChatHubError(event.message, responseText));
     };
 
-    const handleClose = (event: Event) => {
+    const handleClose = (event: WebSocket.CloseEvent) => {
       pingInterval&&clearTimeout(pingInterval);
       ws.removeEventListener("open", handleOpen);
       ws.removeEventListener("message", handleMessage);
       ws.removeEventListener("error", handleError);
       ws.removeEventListener("close", handleClose);
-      const closeEvent = event as CloseEvent;
-      if ((event as CloseEvent).code !== 1000) {
+      if (event.code !== 1000) {
         reject(
           new ChatHubError(
-            `Websocket closed with a ${closeEvent.code} becuase of ${closeEvent.reason}`,
+            `Websocket closed with a ${event.code} becuase of ${event.reason}`,
             responseText
           )
         );
@@ -118,7 +118,7 @@ export function makeChatHubRequest(
   });
 }
 
-const formatRawMessage = (message: MessageEvent) => {
+const formatRawMessage = (message: WebSocket.MessageEvent) => {
   const rawJSON: string[] = message.data
     .toString()
     .split(TERMINAL_CHAR)
