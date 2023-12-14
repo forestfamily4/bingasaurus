@@ -4,10 +4,10 @@ import {
   BingMessageResponse,
   Chat,
   SydneyQueryOptions,
-} from "../types.ts";
-import { createConversation } from "./createConversation.ts";
-import { formatQuery } from "./formatQuery.ts";
-import { makeChatHubRequest } from "./makeChatHubRequest.ts";
+} from "../types";
+import { createConversation } from "./createConversation";
+import { formatQuery } from "./formatQuery";
+import { makeChatHubRequest } from "./makeChatHubRequest";
 
 export class BingConversation {
   cookie: string;
@@ -46,7 +46,7 @@ export class BingConversation {
       [conversationId, conversationSignature, clientId].some(Boolean)
     ) {
       throw new Error(
-        `conversationId, conversationSignature, and clientId must be used together.`,
+        `conversationId, conversationSignature, and clientId must be used together.`
       );
     }
   }
@@ -105,7 +105,7 @@ export class BingConversation {
     const response = await makeChatHubRequest(
       query,
       encryptedConversationSignature,
-      options,
+      options
     );
     this.messages[this.messages.length - 1].response = response.text;
     this.history.push(response);

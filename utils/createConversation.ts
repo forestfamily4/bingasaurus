@@ -1,10 +1,10 @@
-import { CreateConversationResponse } from "../types.ts";
+import { CreateConversationResponse } from "../types";
 
 const CREATE_CHAT_URL = "https://www.bing.com/turing/conversation/create";
 
 export async function createConversation(
   cookie: string,
-  otherHeaders?: HeadersInit,
+  otherHeaders?: HeadersInit
 ): Promise<CreateConversationResponse> {
   const fetchOptions = {
     headers: {
@@ -29,6 +29,6 @@ export async function createConversation(
   }
 
   throw new Error(
-    `unexpected HTTP error #createConversation ${creationResp.status}: ${creationResp.statusText}`,
+    `unexpected HTTP error #createConversation ${creationResp.status}: ${creationResp.statusText}`
   );
 }

@@ -1,0 +1,1 @@
+{"version":3,"file":"ChatHubError.d.ts","sourceRoot":"","sources":["../../errors/ChatHubError.ts"],"names":[],"mappings":"AAAA,qBAAa,YAAa,SAAQ,KAAK;IACrC,eAAe,EAAE,MAAM,CAAC;gBACZ,OAAO,EAAE,MAAM,EAAE,eAAe,EAAE,MAAM;CAIrD"}

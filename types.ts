@@ -36,8 +36,8 @@ interface BaseMessage {
   messageType: MessageType;
 }
 
-export interface QueryMessage extends
-  Omit<
+export interface QueryMessage
+  extends Omit<
     BaseMessage,
     | "createdAt"
     | "messageId"
@@ -405,6 +405,6 @@ export interface Chat {
   response?: string;
 }
 
-export type { BingConversation } from "./utils/BingConversation.ts";
+export type { BingConversation } from "./utils/BingConversation";
 
-export type { BingasaurusClient } from "./utils/BingasaurusClient.ts";
+export type { BingasaurusClient } from "./utils/BingasaurusClient";

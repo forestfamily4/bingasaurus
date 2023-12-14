@@ -1,6 +1,6 @@
-import { SydneyQuery, SydneyQueryOptions } from "../types.ts";
-import { genHexStr } from "./genHexStr.ts";
-import { pickArg } from "./pickArg.ts";
+import { SydneyQuery, SydneyQueryOptions } from "../types";
+import { genHexStr } from "./genHexStr";
+import { pickArg } from "./pickArg";
 
 export function formatQuery(prompt: string, options: SydneyQueryOptions) {
   const {

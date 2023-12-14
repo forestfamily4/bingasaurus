@@ -1,4 +1,4 @@
-import { ChatHubError } from "../errors/ChatHubError.ts";
+import { ChatHubError } from "../errors/ChatHubError";
 import {
   BingMessageResponse,
   BotMessage,
@@ -10,7 +10,7 @@ import {
   ResponseMessage,
   SydneyQuery,
   SydneyServerMessage,
-} from "../types.ts";
+} from "../types";
 
 const SYDNEY_CHAT_URL = "wss://sydney.bing.com/sydney/ChatHub";
 const TERMINAL_CHAR = "";
@@ -18,7 +18,7 @@ const TERMINAL_CHAR = "";
 export function makeChatHubRequest(
   query: SydneyQuery,
   secAccessToken: string,
-  options: ChatRequestHubOptions = {},
+  options: ChatRequestHubOptions = {}
 ) {
   return new Promise<BingMessageResponse>((resolve, reject) => {
     const { onUpdateStatus, onMessage, onRawMessage } = options;
@@ -30,14 +30,12 @@ export function makeChatHubRequest(
     }
 
     const ws = new WebSocket(
-      `${SYDNEY_CHAT_URL}?sec_access_token=${
-        encodeURIComponent(
-          secAccessToken,
-        )
-      }`,
+      `${SYDNEY_CHAT_URL}?sec_access_token=${encodeURIComponent(
+        secAccessToken
+      )}`
     );
 
-    let pingInterval: number | undefined;
+    let pingInterval: NodeJS.Timer | undefined;
 
     const handleOpen = () => {
       ws.send(`{"protocol":"json","version":1}${TERMINAL_CHAR}`);
@@ -68,9 +66,8 @@ export function makeChatHubRequest(
       });
 
       for (const { status, raw, text, shouldBreak } of formatted) {
-        responseText = status !== ChatHubStatus.FAILED && !!text
-          ? text
-          : responseText; // keep any partial response
+        responseText =
+          status !== ChatHubStatus.FAILED && !!text ? text : responseText; // keep any partial response
 
         if (shouldBreak) {
           break;
@@ -98,7 +95,7 @@ export function makeChatHubRequest(
     };
 
     const handleClose = (event: Event) => {
-      clearInterval(pingInterval);
+      pingInterval&&clearTimeout(pingInterval);
       ws.removeEventListener("open", handleOpen);
       ws.removeEventListener("message", handleMessage);
       ws.removeEventListener("error", handleError);
@@ -108,8 +105,8 @@ export function makeChatHubRequest(
         reject(
           new ChatHubError(
             `Websocket closed with a ${closeEvent.code} becuase of ${closeEvent.reason}`,
-            responseText,
-          ),
+            responseText
+          )
         );
       }
     };
@@ -129,14 +126,14 @@ const formatRawMessage = (message: MessageEvent) => {
   const rawMessages = rawJSON
     .map((str) => JSON.parse(str))
     .filter(
-      (m) => Boolean(m) && Object.keys(m).length !== 0,
+      (m) => Boolean(m) && Object.keys(m).length !== 0
     ) as SydneyServerMessage[];
   return rawMessages;
 };
 
 const handleSydneyMessage = (
   message: SydneyServerMessage,
-  currentStatus: ChatHubStatus,
+  currentStatus: ChatHubStatus
 ) => {
   interface FormattedMessage {
     status: ChatHubStatus;

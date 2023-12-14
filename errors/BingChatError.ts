@@ -1,4 +1,4 @@
-import { BingResponseErrorOptions } from "../types.ts";
+import { BingResponseErrorOptions } from "../types";
 
 export class BingResponseError extends Error {
   partialResponse: string;

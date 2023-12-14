@@ -1,6 +1,6 @@
 export function genHexStr(stringLength: number) {
   if (stringLength % 2 == 1) {
-    throw new Deno.errors.InvalidData("hex string needs to be an even number");
+    throw new Error("hex string needs to be an even number");
   }
 
   const uint8 = new Uint8Array(stringLength / 2);

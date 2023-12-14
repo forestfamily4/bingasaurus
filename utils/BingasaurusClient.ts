@@ -1,5 +1,5 @@
-import { BingConversation } from "./BingConversation.ts";
-import * as Types from "../types.ts";
+import { BingConversation } from "./BingConversation";
+import * as Types from "../types";
 
 export class BingasaurusClient {
   userToken: string;
