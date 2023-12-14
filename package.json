@@ -2,7 +2,8 @@
   "name": "bingasaurus",
   "version": "1.0.0",
   "description": "Bing chat service using Deno.js.",
-  "main": "index.js",
+  "main": "dist/mod.js",
+  "types": "dist/mod.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
