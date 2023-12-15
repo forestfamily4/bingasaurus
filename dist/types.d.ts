@@ -153,6 +153,7 @@ interface ResponseFeedback {
 interface QueryResultItem {
     messages: Message[];
     firstNewMessageIndex: number;
+    suggestedResponses?: SuggestedResponse[];
     conversationId: string;
     requestId: string;
     conversationExpiryTime: string;

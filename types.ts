@@ -214,7 +214,7 @@ interface ResponseFeedback {
 interface QueryResultItem {
   messages: Message[];
   firstNewMessageIndex: number;
-  // suggestedResponses: null;
+  suggestedResponses?: SuggestedResponse[];
   conversationId: string;
   requestId: string;
   conversationExpiryTime: string;
